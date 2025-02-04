@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\back\UserController;
+use App\Controllers\front\ArticleController;
 
 use App\Core\Router;
 
@@ -14,5 +15,8 @@ $router->get('/login', [UserController::class, 'login']);
 $router->post('/login', [UserController::class, 'handleLogin']);
 
 $router->get('/logout', [UserController::class, 'logout']);
+$router->get('/home', [UserController::class, 'Home']);
+
+$router->post('/createArticle', [ArticleController::class, 'CreateArticle']);
 
 $router->dispatch();

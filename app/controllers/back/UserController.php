@@ -40,4 +40,22 @@ class UserController extends Controller {
             exit;
         }
     }
+
+    public function handleLogin(){
+
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $user = new User();
+            $user->email = $email;
+            $user->password = $password;
+            if($user->login()){
+                header(('Location: /home'));
+            }else{
+                header('Location: /login');
+            }
+    }
+   public function Home(){
+         $this->view('front/home');
+   }
 }

@@ -7,6 +7,10 @@ use App\Core\model;
 
 class User extends Model {
     protected $table = 'users';
+    public $username;
+    public $email;
+    public $password;
+    public $role;
 
     public static function findByEmail($email){
         $db = Database::getInstance();
@@ -31,4 +35,21 @@ class User extends Model {
             return false;
         }
     }
+
+    public function login()
+    {
+        $db = Database::getInstance();
+        $query = $db->getConnection()->prepare("SELECT * FROM " . $this->getTable() . " WHERE email = :email");
+        
+        $query->bindParam(':email', $this->email);
+        $query->execute();
+        
+        $user = $query->fetch();
+        
+        if ($user && password_verify($this->password, $user['password'])) {
+            return $user;
+        }
+        return false;
+    }
+    
 }

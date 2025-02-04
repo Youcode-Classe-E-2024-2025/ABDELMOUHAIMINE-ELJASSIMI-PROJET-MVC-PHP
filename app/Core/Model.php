@@ -6,10 +6,6 @@ use PDO;
 
 class Model {
     protected $table = '';
-    public $username;
-    public $email;
-    public $password;
-    public $role;
     
     public function getTable() {
         return $this->table;
