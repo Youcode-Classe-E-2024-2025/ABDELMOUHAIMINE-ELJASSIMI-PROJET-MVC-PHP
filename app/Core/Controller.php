@@ -2,18 +2,21 @@
 
 namespace App\Core;
 
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 class Controller
 {
+    protected $twig;
+
+    public function __construct() {
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views/front');
+        $this->twig = new \Twig\Environment($loader);
+    }
+
     public function view(string $view, array $data = [])
     {
-
-        $viewPath = __DIR__ . '/../views/' . $view . '.twig';
-        if (file_exists($viewPath)) {
-            extract($data);
-            include $viewPath;
-        } else {
-            die("View not found: " . $view);
-        }
+        echo $this->twig->render($view . '.twig', $data); 
     }
 
     public function redirect(string $url)

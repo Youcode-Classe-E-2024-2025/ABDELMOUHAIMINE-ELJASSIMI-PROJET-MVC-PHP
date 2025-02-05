@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Core\Database;
 use App\Core\model;
 
+session_start();
+
 class User extends Model {
     protected $table = 'users';
     public $username;
@@ -47,9 +49,11 @@ class User extends Model {
         $user = $query->fetch();
         
         if ($user && password_verify($this->password, $user['password'])) {
+            $_SESSION["user_id"] = $user["id"];
             return $user;
         }
         return false;
+
     }
     
 }

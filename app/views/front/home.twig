@@ -18,7 +18,18 @@
 
     <main class="container mx-auto mt-8 p-4">
         <div id="articlesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Les articles seront ajoutés ici dynamiquement -->
+        {% if articles %}
+                {% for article in articles %}
+                    <article class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="p-6">
+                            <h2 class="text-xl font-semibold mb-2">{{ article.title }}</h2>
+                            <p class="text-gray-600">{{ article.content }}</p>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p>No articles available.</p>
+            {% endif %}
         </div>
     </main>
 
@@ -26,7 +37,7 @@
     <div id="addArticleModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
             <h2 class="text-2xl font-bold mb-4">Ajouter un Nouvel Article</h2>
-            <form id="addArticleForm" action="/createArticle" class="space-y-4">
+            <form id="addArticleForm" action="/createArticle" method="POST" class="space-y-4">
                 <div>
                     <label for="articleTitle" class="block text-sm font-medium text-gray-700">Titre</label>
                     <input type="text" id="articleTitle" name="title" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
@@ -44,33 +55,6 @@
     </div>
 
     <script>
-        // Données d'exemple pour les articles
-        let articles = [
-            { id: 1, title: "Premier Article", content: "Contenu du premier article...", date: "2023-05-01" },
-            { id: 2, title: "Deuxième Article", content: "Contenu du deuxième article...", date: "2023-05-05" },
-            { id: 3, title: "Troisième Article", content: "Contenu du troisième article...", date: "2023-05-10" }
-        ];
-
-        // Fonction pour afficher les articles
-        function displayArticles() {
-            const articlesList = document.getElementById('articlesList');
-            articlesList.innerHTML = '';
-            articles.forEach(article => {
-                const articleElement = document.createElement('div');
-                articleElement.className = 'bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300';
-                articleElement.innerHTML = `
-                    <h2 class="text-xl font-semibold mb-2">${article.title}</h2>
-                    <p class="text-gray-600 mb-4">${article.content.substring(0, 100)}...</p>
-                    <p class="text-sm text-gray-500">Publié le ${article.date}</p>
-                `;
-                articlesList.appendChild(articleElement);
-            });
-        }
-
-        // Afficher les articles au chargement de la page
-        displayArticles();
-
-        // Gestion du modal
         const addArticleBtn = document.getElementById('addArticleBtn');
         const addArticleModal = document.getElementById('addArticleModal');
         const cancelBtn = document.getElementById('cancelBtn');
@@ -84,24 +68,6 @@
         cancelBtn.addEventListener('click', () => {
             addArticleModal.classList.add('hidden');
             addArticleModal.classList.remove('flex');
-        });
-
-        // Gestion de l'ajout d'un nouvel article
-        addArticleForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const title = document.getElementById('articleTitle').value;
-            const content = document.getElementById('articleContent').value;
-            const newArticle = {
-                id: articles.length + 1,
-                title: title,
-                content: content,
-                date: new Date().toISOString().split('T')[0]
-            };
-            articles.unshift(newArticle);
-            displayArticles();
-            addArticleModal.classList.add('hidden');
-            addArticleModal.classList.remove('flex');
-            addArticleForm.reset();
         });
     </script>
 </body>

@@ -3,7 +3,7 @@
         'name' => 'abdelmouhaimine/abdelmouhaimine-eljassimi-projet-mvc-php',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '76d9fd8b20350c15955513476c77d519f21c2e5e',
+        'reference' => '1cb62bdb8f68608b93dbeb23ce3c1d8ebad9e502',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'abdelmouhaimine/abdelmouhaimine-eljassimi-projet-mvc-php' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '76d9fd8b20350c15955513476c77d519f21c2e5e',
+            'reference' => '1cb62bdb8f68608b93dbeb23ce3c1d8ebad9e502',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
