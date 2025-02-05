@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,54 +8,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
-    <header class="bg-indigo-600 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">ArticleHub</h1>
-            <button id="addArticleBtn" class="bg-white text-indigo-600 px-4 py-2 rounded-full hover:bg-indigo-100 transition duration-300">
+<header class="bg-indigo-600 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold">ArticleHub</h1>
+        <div class="flex justify-between items-center space-x-4">
+            <a href="/createArticle" class="bg-white text-indigo-600 px-4 py-2 rounded-full hover:bg-indigo-100 transition duration-300">
                 Ajouter un Article
-            </button>
-        </div>
-    </header>
-
-    <main class="container mx-auto mt-8 p-4">
-        <div id="articlesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% if articles %}
-                {% for article in articles %}
-                    <article class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="p-6">
-                            <h2 class="text-xl font-semibold mb-2">{{ article.title }}</h2>
-                            <p class="text-gray-600">{{ article.content }}</p>
-                        </div>
-                    </article>
-                {% endfor %}
-            {% else %}
-                <p>No articles available.</p>
-            {% endif %}
-        </div>
-    </main>
-
-    <!-- Modal pour ajouter un article -->
-    <div id="addArticleModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-            <h2 class="text-2xl font-bold mb-4">Ajouter un Nouvel Article</h2>
-            <form id="addArticleForm" action="/createArticle" method="POST" class="space-y-4">
-                <div>
-                    <label for="articleTitle" class="block text-sm font-medium text-gray-700">Titre</label>
-                    <input type="text" id="articleTitle" name="title" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                </div>
-                <div>
-                    <label for="articleContent" class="block text-sm font-medium text-gray-700">Contenu</label>
-                    <textarea id="articleContent" name="content" rows="4" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-                </div>
-                <div class="flex justify-end space-x-3">
-                    <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Annuler</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Ajouter</button>
-                </div>
-            </form>
+            </a>
+            <a href="/logout" class="bg-white text-red-600 px-4 py-2 rounded-full hover:bg-red-100 transition duration-300">
+                Logout
+            </a>
         </div>
     </div>
+</header>
+<main class="container mx-auto mt-8 p-4">
+    <div id="articlesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% if articles %}
+            {% for article in articles %}
+                <article class="bg-white rounded-lg shadow-md overflow-hidden p-6">
+                    <h2 class="text-xl font-semibold mb-2">{{ article.title }}</h2>
+                    <p class="text-gray-600 mb-4">{{ article.content }}</p>
+                    <div class="flex space-x-3">
+                        <a href="/article/{{ article.id }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Voir</a>
+                        {% if user_role != 3 %}
+                        <a href="/editArticle/{{ article.id }}" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Modifier</a>
+                        <form action="/deleteArticle/{{ article.id }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet article ?');">
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Supprimer</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        {% else %}
+            <p>Aucun article disponible.</p>
+        {% endif %}
+    </div>
+</main>
 
-    <script>
+<script>
         const addArticleBtn = document.getElementById('addArticleBtn');
         const addArticleModal = document.getElementById('addArticleModal');
         const cancelBtn = document.getElementById('cancelBtn');
@@ -70,5 +61,6 @@
             addArticleModal.classList.remove('flex');
         });
     </script>
+
 </body>
 </html>

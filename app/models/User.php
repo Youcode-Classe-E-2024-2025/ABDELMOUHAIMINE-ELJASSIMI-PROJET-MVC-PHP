@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+
 use App\Core\Database;
 use App\Core\model;
+use App\Core\Session;
 
 session_start();
 
@@ -45,11 +47,11 @@ class User extends Model {
         
         $query->bindParam(':email', $this->email);
         $query->execute();
-        
         $user = $query->fetch();
         
         if ($user && password_verify($this->password, $user['password'])) {
-            $_SESSION["user_id"] = $user["id"];
+            $session = new Session();
+            $session->set('user_role', $user["role_id"]);
             return $user;
         }
         return false;

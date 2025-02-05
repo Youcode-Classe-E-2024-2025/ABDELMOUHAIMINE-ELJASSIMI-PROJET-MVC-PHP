@@ -6,18 +6,19 @@ use App\Core\Controller;
 use App\Models\User;
 use App\Core\Auth;
 
+
 class UserController extends Controller {
 
-    public function register()
+    public function register(): void
     {
-        $this->view('front/register');
+        $this->view('register');
     }
-    public function login()
+    public function login(): void
     {
-        $this->view('front/register');
+        $this->view('register');
     }
 
-    public function handleRegister()
+    public function handleRegister(): void
     {
         var_dump($_POST);
 
@@ -41,7 +42,8 @@ class UserController extends Controller {
         }
     }
 
-    public function handleLogin(){
+    public function handleLogin(): void
+    {
 
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -49,13 +51,14 @@ class UserController extends Controller {
             $user = new User();
             $user->email = $email;
             $user->password = $password;
-            if($user->login()){
-                header(('Location: /home'));
-            }else{
-                header('Location: /login');
+
+            if($user->login()) {
+                header('Location: /home');
+            } else {
+                header('Location: /login?error=invalid_credentials');
             }
     }
-   public function Home(){
+   public function Home(): void{
          $this->view('front/home');
    }
 }

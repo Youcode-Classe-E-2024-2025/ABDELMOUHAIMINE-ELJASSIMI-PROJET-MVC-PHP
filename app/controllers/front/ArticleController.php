@@ -6,11 +6,11 @@ use App\Core\Controller;
 use App\models\Article;
 use App\Core\Auth;
 
-session_start();
 
 class ArticleController extends Controller {
 
-        public function CreateArticle(){
+        public function CreateArticle(): void
+        {
 
                 $title = $_POST['title']; 
                 $content = $_POST['content'];
@@ -24,7 +24,8 @@ class ArticleController extends Controller {
 
         }
 
-        public function FetchArticle(){
+        public function FetchArticle(): void
+        {
             $article = new Article();
             $articles = $article->fetch();
             $this->view('home', ['articles' => $articles]);
