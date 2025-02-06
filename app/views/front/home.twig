@@ -12,9 +12,9 @@
         <h1 class="text-2xl font-bold">ArticleHub</h1>
         <div class="flex justify-between items-center space-x-4">
             {% if user_role != 3 %}
-            <a href="/createArticle" class="bg-white text-indigo-600 px-4 py-2 rounded-full hover:bg-indigo-100 transition duration-300">
-                Ajouter un Article
-            </a>
+                <button id="addArticleBtn" class="bg-white text-indigo-600 px-4 py-2 rounded-full hover:bg-indigo-100 transition duration-300">
+                    Ajouter un Article
+                </button>
             {% endif %}
             <a href="/logout" class="bg-white text-red-600 px-4 py-2 rounded-full hover:bg-red-100 transition duration-300">
                 Logout
@@ -33,9 +33,7 @@
                         <a href="/article/{{ article.id }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Voir</a>
                         {% if user_role != 3 %}
                         <a href="/editArticle/{{ article.id }}" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Modifier</a>
-                        <form action="/deleteArticle/{{ article.id }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet article ?');">
-                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Supprimer</button>
-                        </form>
+                            <a href="/deleteArticle/{{ article.id }}" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Supprimer</a>
                         {% endif %}
                     </div>
                 </article>
@@ -45,7 +43,26 @@
         {% endif %}
     </div>
 </main>
-
+<!-- Modal pour ajouter un article -->
+<div id="addArticleModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4">Ajouter un Nouvel Article</h2>
+        <form id="addArticleForm" action="/createArticle" method="POST" class="space-y-4">
+            <div>
+                <label for="articleTitle" class="block text-sm font-medium text-gray-700">Titre</label>
+                <input type="text" id="articleTitle" name="title" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div>
+                <label for="articleContent" class="block text-sm font-medium text-gray-700">Contenu</label>
+                <textarea id="articleContent" name="content" rows="4" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Annuler</button>
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Ajouter</button>
+            </div>
+        </form>
+    </div>
+</div>
 <script>
         const addArticleBtn = document.getElementById('addArticleBtn');
         const addArticleModal = document.getElementById('addArticleModal');

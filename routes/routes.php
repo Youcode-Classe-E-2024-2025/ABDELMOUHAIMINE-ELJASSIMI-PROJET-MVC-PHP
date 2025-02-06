@@ -19,5 +19,6 @@ $router->get('/logout', [UserController::class, 'logout']);
 $router->get('/home', [ArticleController::class, 'FetchArticle']);
 
 $router->post('/createArticle', [ArticleController::class, 'CreateArticle']);
+$router->get('/deleteArticle/{id}', [ArticleController::class, 'deleteArticle']);
 
 $router->dispatch();

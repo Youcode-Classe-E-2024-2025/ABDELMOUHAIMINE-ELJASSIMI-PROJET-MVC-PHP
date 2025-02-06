@@ -38,4 +38,12 @@ class ArticleController extends Controller {
             ]);
         }
 
+    public function deleteArticle($id)
+    {
+        $article = new Article();
+        $article->deleteArticle($id);
+        header('location: \home');
+    }
+
+
 }

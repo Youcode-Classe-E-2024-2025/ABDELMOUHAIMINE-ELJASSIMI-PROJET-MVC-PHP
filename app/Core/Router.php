@@ -9,7 +9,7 @@ class Router {
         $this->routes['GET'][$uri] = $controller;
     }
 
-    public function post($uri, $controller) {
+    public function post($uri, $controller): void{
         $this->routes['POST'][$uri] = $controller;
     }
 
@@ -17,13 +17,18 @@ class Router {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $method = $_SERVER['REQUEST_METHOD'];
 
-        if (isset($this->routes[$method][$uri])) {
-            [$controller, $action] = $this->routes[$method][$uri];
-            $controllerInstance = new $controller();
-            call_user_func([$controllerInstance, $action]);
-        } else {
-            http_response_code(404);
-            echo "404 Not Found";
+        foreach ($this->routes[$method] as $route => $controller) {
+            $routePattern = preg_replace('/\{([^}]+)\}/', '([^/]+)', $route);
+
+            if (preg_match("#^$routePattern$#", $uri, $matches)) {
+                array_shift($matches);
+                [$controllerClass, $action] = $controller;
+                $controllerInstance = new $controllerClass();
+                call_user_func_array([$controllerInstance, $action], $matches);
+                return;
+            }
         }
+        http_response_code(404);
+        echo "404 Not Found";
     }
 }

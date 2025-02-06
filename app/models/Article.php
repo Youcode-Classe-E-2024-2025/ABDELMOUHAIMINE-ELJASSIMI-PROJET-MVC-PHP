@@ -49,5 +49,18 @@ class Article extends Model {
             die("Fetch Error: " . $e->getMessage());
         }
     }
-    
+
+    function deleteArticle($id)
+    {
+        $db = Database::getInstance();
+        $pdo = $db->getConnection();
+        $sql = "DELETE FROM articles WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+
+
+
 }

@@ -3,6 +3,7 @@
 namespace App\Controllers\back;
 
 use App\Core\Controller;
+use App\Core\Session;
 use App\Models\User;
 use App\Core\Auth;
 
@@ -58,6 +59,14 @@ class UserController extends Controller {
                 header('Location: /login?error=invalid_credentials');
             }
     }
+
+    public function logout(): void {
+        $session = new Session();
+        $session->destroy();
+        header('Location: /register');
+    }
+
+
    public function Home(): void{
          $this->view('front/home');
    }
