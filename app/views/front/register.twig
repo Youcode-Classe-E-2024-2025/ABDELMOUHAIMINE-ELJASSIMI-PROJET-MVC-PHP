@@ -16,6 +16,7 @@
         </div>
 
         <form id="signinForm" class="space-y-4" action="/login" method="POST">
+            <input type="hidden" name="csrf_token" value={{ Csrftoken }}>
             <div>
                 <label for="signinEmail" class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" name="email" id="signinEmail" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
@@ -28,6 +29,7 @@
         </form>
 
         <form id="signupForm" class="space-y-4 hidden" action="/register" method="POST">
+            <input type="hidden" name="csrf_token" value={{ Csrftoken }}>
             <div>
                 <label for="signupName" class="block text-sm font-medium text-gray-700">Name</label>
                 <input type="text" name="name" id="signupName" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500" required>

@@ -4,6 +4,7 @@ namespace App\Controllers\back;
 
 use App\Core\Controller;
 use App\Core\Session;
+use App\Core\Security;
 use App\Models\User;
 use App\Core\Auth;
 
@@ -12,11 +13,15 @@ class UserController extends Controller {
 
     public function register(): void
     {
-        $this->view('register');
+        $security = new Security();
+        $tokenCsrf = $security->Csrftoken();
+        $this->view('register',['Csrftoken' => $tokenCsrf]);
     }
     public function login(): void
     {
-        $this->view('register');
+        $security = new Security();
+        $tokenCsrf = $security->Csrftoken();
+        $this->view('register',['Csrftoken' => $tokenCsrf]);
     }
 
     public function handleRegister(): void
@@ -24,6 +29,13 @@ class UserController extends Controller {
         var_dump($_POST);
 
         if (isset($_POST['submit'])) {
+            $csrfToken = $_POST['csrf_token'];
+            $security = new Security();
+            $CsrfCheck = $security->checkCsrfToken($csrfToken);
+            if (!$CsrfCheck) {
+                header('Location: /register?error=invalid_csrf_token');
+                exit;
+            }
             $username = $_POST['name']; 
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -45,7 +57,13 @@ class UserController extends Controller {
 
     public function handleLogin(): void
     {
-
+        $csrfToken = $_POST['csrf_token'];
+        $security = new Security();
+        $CsrfCheck = $security->checkCsrfToken($csrfToken);
+        if (!$CsrfCheck) {
+            header('Location: /register?error=invalid_csrf_token');
+            exit;
+        }
             $email = $_POST['email'];
             $password = $_POST['password'];
 
