@@ -3,10 +3,11 @@
 namespace App\Controllers\front;
 
 use App\Core\Controller;
+use App\Core\Session;
 use App\models\Article;
 use App\Core\Auth;
 
-
+session_start();
 class ArticleController extends Controller {
 
         public function CreateArticle(): void
@@ -26,9 +27,15 @@ class ArticleController extends Controller {
 
         public function FetchArticle(): void
         {
+            $session = new Session();
+            $user_role = $session->get('user_role');
             $article = new Article();
             $articles = $article->fetch();
-            $this->view('home', ['articles' => $articles]);
+
+            $this->view('home', [
+                'user_role' => $user_role,
+                'articles' => $articles
+            ]);
         }
 
 }
