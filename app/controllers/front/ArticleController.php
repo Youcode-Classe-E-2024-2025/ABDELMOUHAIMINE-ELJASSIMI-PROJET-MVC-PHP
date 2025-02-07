@@ -31,11 +31,15 @@ class ArticleController extends Controller {
             $user_role = $session->get('user_role');
             $article = new Article();
             $articles = $article->fetch();
+             if($user_role){
+                 $this->view('home', [
+                     'user_role' => $user_role,
+                     'articles' => $articles
+                 ]);
+             }else{
+                 header('location: \register');
+             }
 
-            $this->view('home', [
-                'user_role' => $user_role,
-                'articles' => $articles
-            ]);
         }
 
     public function deleteArticle($id)
