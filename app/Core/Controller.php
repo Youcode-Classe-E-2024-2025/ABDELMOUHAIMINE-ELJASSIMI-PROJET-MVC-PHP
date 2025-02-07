@@ -7,10 +7,12 @@ use Twig\Loader\FilesystemLoader;
 
 class Controller
 {
-    protected $twig;
+    protected  $twig;
+    protected  $viewFolder;
 
-    public function __construct() {
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views/front');
+    public function __construct( $viewFolder = 'front') {
+        $this->viewFolder = $viewFolder;
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views/' . $this->viewFolder);
         $this->twig = new \Twig\Environment($loader);
     }
 

@@ -57,5 +57,12 @@ class User extends Model {
         return false;
 
     }
+
+    public function fetchAll(){
+        $db = Database::getInstance();
+        $query = $db->getConnection()->prepare("SELECT * FROM " . $this->getTable());
+        $query->execute();
+        return $query->fetchAll();
+    }
     
 }

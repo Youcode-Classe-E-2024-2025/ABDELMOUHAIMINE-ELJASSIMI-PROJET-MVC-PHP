@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArticleHub - Tableau de Bord</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+<header class="bg-indigo-600 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold">ArticleHub</h1>
+        <div class="flex justify-between items-center space-x-4">
+            <a href="/logout" class="bg-white text-red-600 px-4 py-2 rounded-full hover:bg-red-100 transition duration-300">
+                Logout
+            </a>
+        </div>
+    </div>
+</header>
+<main class="container mx-auto mt-8 p-4">
+    <!-- Dashboard Summary -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Tableau de Bord</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-indigo-100 rounded-lg p-6 text-center">
+                <h3 class="text-xl font-semibold mb-2">Nombre d'Articles</h3>
+                <p class="text-4xl font-bold text-indigo-600">{{ articleCount }}</p>
+            </div>
+            <div class="bg-green-100 rounded-lg p-6 text-center">
+                <h3 class="text-xl font-semibold mb-2">Nombre d'Utilisateurs</h3>
+                <p class="text-4xl font-bold text-green-600">{{ userCount }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <h2 class="text-2xl font-bold mb-4">Liste des Utilisateurs</h2>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead class="bg-indigo-600 text-white">
+            <tr>
+                <th class="px-4 py-3 text-left">Nom</th>
+                <th class="px-4 py-3 text-left">Rôle</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if users %}
+                {% for user in users %}
+                    <tr class="border-b border-gray-200">
+                        <td class="px-4 py-3">{{ user.username }}</td>
+                        <td class="px-4 py-3">
+                            {% if user.role_id == 1 %}
+                                <span class="text-red-600 font-semibold">Admin</span>
+                            {% elseif user.role_id == 2 %}
+                                <span class="text-blue-600 font-semibold">Auteur</span>
+                            {% else %}
+                                <span class="text-gray-600 font-semibold">Utilisateur</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="2" class="text-center py-4">Aucun utilisateur trouvé.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

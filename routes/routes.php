@@ -2,6 +2,7 @@
 
 use App\Controllers\back\UserController;
 use App\Controllers\front\ArticleController;
+use App\Controllers\back\DashboardController;
 
 use App\Core\Router;
 
@@ -20,5 +21,9 @@ $router->get('/home', [ArticleController::class, 'FetchArticle']);
 
 $router->post('/createArticle', [ArticleController::class, 'CreateArticle']);
 $router->get('/deleteArticle/{id}', [ArticleController::class, 'deleteArticle']);
+
+$router->get('/dashboard', [DashboardController::class, 'Dashboard']);
+
+
 
 $router->dispatch();
